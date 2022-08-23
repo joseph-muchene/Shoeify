@@ -1,8 +1,16 @@
 import React from "react";
-
+import { useNavigate } from "react-router-dom";
 function Product() {
+  // handle redirect to product
+  const navigate = useNavigate();
+  const handleRedirect = (slug) => {
+    navigate(`/product/${slug}`);
+  };
   return (
-    <div className="mx-3 shadow mb-3 rounded ">
+    <div
+      className="mx-3 shadow mb-3 rounded"
+      onClick={() => handleRedirect("whatever")}
+    >
       <div className="mb-4">
         <div>
           <img

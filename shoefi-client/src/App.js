@@ -7,8 +7,6 @@ function App() {
   return (
     <>
       <motion.div
-        animate={{ x: 0 }}
-        transition={{ type: "spring", stiffness: 100 }}
         className="progress-bar"
         style={{ scaleX: scrollYProgress }}
       />
