@@ -38,11 +38,10 @@ export const CartProvider = ({ children }) => {
         };
 
       case REMOVE_FROM_CART:
-        const newCart = [...state.cart];
-        const filtered = newCart.filter(
-          (prod) => prod.id !== action.payload.id
-        );
-        return (state.cart = filtered);
+        return {
+          ...state,
+          cart: state.cart.filter((product) => product.id !== action.payload),
+        };
 
       case CHANGE_CART_QUANTITY:
         return {

@@ -6,6 +6,8 @@ import { Cart } from "../context/Reducer/CartReducer";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
+import CartSlider from "../Components/Cart/CartSlider";
+
 function ProductPage() {
   const { slug } = useParams();
   const { state, dispatch } = React.useContext(Cart);
@@ -16,6 +18,12 @@ function ProductPage() {
     setProduct(prod.find((prod) => prod.slug === slug));
   }, [prod, slug]);
 
+  
+  const Close_cart = () => {
+    dispatch({
+      type: "CLOSE_CART",
+    });
+  };
   const AddTocart = () => {
     // check if product exists
     if (!!state.cart.find((prod) => prod.id === product.id))
@@ -86,6 +94,7 @@ function ProductPage() {
           </button>
         </div>
       </div>
+      {state.isOpen && <CartSlider closeCart={Close_cart} />}
     </div>
   );
 }
