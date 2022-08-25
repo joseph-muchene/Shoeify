@@ -1,6 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-function Product() {
+function Product({ product }) {
+  console.log(product);
+  const { name, imgUrl, price, slug } = product;
   // handle redirect to product
   const navigate = useNavigate();
   const handleRedirect = (slug) => {
@@ -9,20 +11,17 @@ function Product() {
   return (
     <div
       className="mx-3 shadow mb-3 rounded"
-      onClick={() => handleRedirect("whatever")}
+      onClick={() => handleRedirect(slug)}
     >
       <div className="mb-4">
         <div>
-          <img
-            src="https://cdn.shopify.com/s/files/1/0582/2614/7460/products/kiss-cut-sticker-sheet-white-front-62c5b5d604ab6_400x400.jpg.webp?v=1657124314"
-            alt=""
-          />
+          <img src={imgUrl} alt="" />
         </div>
 
         <div className="flex justify-between gap-3 p-2 ">
-          <h2 className="text-xl">Deno Sticker Sheet </h2>
+          <h2 className="text-xl">{name.toLowerCase()} </h2>
 
-          <h2 className="font-semibold">$10.00</h2>
+          <h2 className="font-semibold">Ksh {price}</h2>
         </div>
       </div>
     </div>
