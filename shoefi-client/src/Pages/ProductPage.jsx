@@ -2,7 +2,30 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Header from "../Components/Header/Header";
 import { BsArrowLeft } from "react-icons/bs";
+import { Cart } from "../context/Reducer/CartReducer";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 function ProductPage() {
+  const { slug } = useParams();
+  const { state, dispatch } = React.useContext(Cart);
+  console.log(state);
+  const [prod, _] = useState([...state.products]);
+  const [product, setProduct] = useState({});
+  useEffect(() => {
+    setProduct(prod.find((prod) => prod.slug === slug));
+  }, [prod, slug]);
+
+  const AddTocart = () => {
+    // check if product exists
+    if (!!state.cart.find((prod) => prod.id === product.id))
+      return console.log("product already exists in the cart");
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: product,
+    });
+  };
+  // console.log(dispatch);
   return (
     <div>
       <Header />
@@ -24,12 +47,12 @@ function ProductPage() {
         <div>
           <div className="flex justify-between place-items-center ">
             <div className="flex flex-col space-y-3 mb-3">
-              <h2 className="text-xl font-semibold">Deno Pocket Tee</h2>
+              <h2 className="text-xl font-semibold">{product.name}</h2>
               <p className="text-lg  text-gray-400">tshirt</p>
             </div>
 
-            <div className="border border-1 px-4 py-2 rounded-full bg-gray-200">
-              <h2 className="text-xl">$35.00</h2>
+            <div className="text-sm px-4 py-2 border border-1 md:px-4 md:py-2 rounded-full bg-gray-200">
+              <h2 className="text-xl">Ksh {product.price}</h2>
             </div>
           </div>
 
@@ -48,9 +71,19 @@ function ProductPage() {
         </div>
         <div className="border-1 shadow p-3 md:mb-4 rounded-md">
           <img
-            src="https://cdn.shopify.com/s/files/1/0582/2614/7460/products/denopockettee-white_blue_0c05a1bc-c94f-4555-b84d-b50dfd40aba3_400x400.png.webp?v=1658427860"
+            src={product.imgUrl}
             alt="shopify-prod"
+            className="h:60 md:h-60"
           />
+        </div>
+
+        <div className="my-3 flex justify-center ">
+          <button
+            onClick={AddTocart}
+            className="bg-gray-400 p-2 w-60 rounded-md text-white hover:bg-gray-600 cursor-pointer"
+          >
+            Add to cart
+          </button>
         </div>
       </div>
     </div>

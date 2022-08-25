@@ -1,6 +1,16 @@
 import React from "react";
 import { BsCart } from "react-icons/bs";
+import { Cart } from "../../context/Reducer/CartReducer";
+import { useContext } from "react";
 function Header() {
+  const { state, dispatch } = useContext(Cart);
+
+  const openCart = () => {
+    dispatch({
+      type: "OPEN_CART",
+    });
+  };
+
   return (
     <div className="w-full bg-yellow-300">
       <div className="flex  justify-between gap-3 items-center mx-3">
@@ -17,8 +27,10 @@ function Header() {
         </div>
 
         <div className="relative p-3">
-          <span className="absolute top-0 right-0 ">4</span>
-          <button className="bg-[#eee] p-1 rounded-full">
+          <span className="absolute top-0 right-0 text-xl italic ">
+            {state.cart.length}
+          </span>
+          <button className="bg-[#eee] p-1 rounded-full" onClick={openCart}>
             <BsCart className="text-2xl" />
           </button>
         </div>

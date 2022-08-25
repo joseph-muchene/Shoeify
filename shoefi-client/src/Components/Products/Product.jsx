@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 function Product({ product }) {
   console.log(product);
   const { name, imgUrl, price, slug } = product;
+
   // handle redirect to product
   const navigate = useNavigate();
   const handleRedirect = (slug) => {

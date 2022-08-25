@@ -3,20 +3,39 @@ import {
   ADD_TO_CART,
   REMOVE_FROM_CART,
   CHANGE_CART_QUANTITY,
+  OPEN_CART,
+  CLOSE_CART,
 } from "../Actions/types";
 import products from "../../utils/products";
 import { createContext } from "react";
 import { useReducer } from "react";
-const initialState = {
-  cart: [...products],
-};
 
 export const Cart = createContext();
 export const CartProvider = ({ children }) => {
+  const initialState = {
+    isOpen: false,
+    cart: [],
+    products: [...products],
+  };
+
   const reducer = (state = initialState, action) => {
-    switch (action) {
+    switch (action.type) {
       case ADD_TO_CART:
-        return [...state.cart, { ...action.payload, quantity: 1 }];
+        return {
+          ...state,
+          cart: [...state.cart, { ...action.payload, quantity: 1 }],
+        };
+      case OPEN_CART:
+        return {
+          ...state,
+          isOpen: true,
+        };
+
+      case CLOSE_CART:
+        return {
+          ...state,
+          isOpen: false,
+        };
 
       case REMOVE_FROM_CART:
         const newCart = [...state.cart];
@@ -39,8 +58,9 @@ export const CartProvider = ({ children }) => {
         return state;
     }
   };
-  // cart context
 
+  // cart context
   const [state, dispatch] = useReducer(reducer, initialState);
+
   return <Cart.Provider value={{ state, dispatch }}>{children}</Cart.Provider>;
 };
